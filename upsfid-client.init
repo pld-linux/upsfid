@@ -1,0 +1,52 @@
+#!/bin/sh
+#
+# upsmonc		This shell script takes care of starting and stopping upsmonc
+#
+# chkconfig:	12345 99 11
+# description:	ups-management daemon for Fideltronik
+# processname:	upsmonc
+#
+# pidfile:	/var/run/upsmonc.pid
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+RETVAL=0
+# See how we were called.
+case "$1" in
+  start)
+	# Start daemons.
+	if [ ! -f /var/lock/subsys/upsmonc ]; then
+		msg_starting upsmonc
+		daemon upsmonc
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/upsmonc
+	else
+		msg_already_running upsmonc
+	fi
+	;;
+  stop)
+	if [ -f /var/lock/subsys/upsmonc ]; then
+		# Stop daemons.
+		msg_stopping upsmonc
+		killproc upsmonc
+		rm -f /var/lock/subsys/upsmonc >/dev/null 2>&1
+	else
+		msg_not_running upsmonc
+	fi
+	;;
+  restart|force-reload)
+	$0 stop
+	$0 start
+	exit $?
+	;;
+  status)
+	status upsmonc
+	exit $?
+	;;
+  *)
+	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	exit 3
+esac
+
+exit $RETVAL
