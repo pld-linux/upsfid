@@ -1,6 +1,4 @@
 
-%define		oldname	upsmon
-
 Summary:	Allows to monitor UPS from Fideltronik
 Summary(pl.UTF-8):	Narzędzia do monitorowania UPS-ów firmy Fideltronik
 Name:		upsfid
@@ -11,8 +9,8 @@ License:	Free
 Group:		Daemons
 Source0:	http://www.fideltronik.com.pl/ups/upsmon/software/3x_linux/%{version}/%{name}-%{version}-1.tgz
 # Source0-md5:	879d6b961d4bf60158002f5b218f8dbb
-Source1:	%{oldname}.init
-Source2:	%{oldname}-client.init
+Source1:	%{name}-server.init
+Source2:	%{name}-client.init
 URL:		http://www.fideltronik.com.pl/
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
